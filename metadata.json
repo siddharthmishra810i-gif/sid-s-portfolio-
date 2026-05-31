@@ -1,0 +1,6 @@
+{
+  "name": "Sid - 3D Creator",
+  "description": "Portfolio landing page for a 3D creator",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
