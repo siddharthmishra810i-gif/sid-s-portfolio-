@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'motion/react';
+import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'motion/react';
 import { LiveProjectButton } from '../ui/LiveProjectButton';
 
 const projects = [
@@ -43,7 +43,7 @@ const projects = [
 
 export function ProjectsSection() {
   return (
-    <section className="bg-[#0C0C0C] rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] -mt-10 sm:-mt-12 md:-mt-14 relative z-10 px-5 sm:px-8 md:px-10 py-20 sm:py-24 md:py-32" id="projects">
+    <section className="bg-gray-100 dark:bg-[#0C0C0C] rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] -mt-10 sm:-mt-12 md:-mt-14 relative z-10 px-5 sm:px-8 md:px-10 py-20 sm:py-24 md:py-32 transition-colors duration-300" id="projects">
       <h2 className="hero-heading font-black uppercase text-center text-[clamp(3rem,12vw,160px)] mb-16 sm:mb-20 md:mb-28 leading-none">
         Project
       </h2>
@@ -91,22 +91,22 @@ function ProjectCard({ project, index, totalCards }: { project: any, index: numb
           scale,
           top: `calc(${index * 28}px)`
         }}
-        className="w-full h-auto min-h-[70vh] rounded-[40px] sm:rounded-[50px] md:rounded-[60px] border-2 border-[#D7E2EA] bg-[#0C0C0C] p-4 sm:p-6 md:p-8 flex flex-col gap-6 origin-top sticky"
+        className="w-full h-auto min-h-[70vh] rounded-[40px] sm:rounded-[50px] md:rounded-[60px] border-2 border-gray-300 dark:border-[#D7E2EA] bg-white dark:bg-[#0C0C0C] p-4 sm:p-6 md:p-8 flex flex-col gap-6 origin-top sticky transition-colors duration-300"
       >
         <div className="flex flex-col lg:flex-row justify-between lg:items-center gap-4 lg:gap-8">
           <div className="flex items-center gap-4 sm:gap-6 md:gap-8">
-            <span className="font-black text-[clamp(2.5rem,6vw,100px)] text-[#D7E2EA] leading-none">
+            <span className="font-black text-[clamp(2.5rem,6vw,100px)] text-gray-900 dark:text-[#D7E2EA] leading-none">
               {project.num}
             </span>
             <div className="flex flex-col">
-              <span className="text-[#D7E2EA]/60 uppercase tracking-widest text-xs sm:text-sm">
+              <span className="text-gray-600 dark:text-[#D7E2EA]/60 uppercase tracking-widest text-xs sm:text-sm">
                 ({project.label})
               </span>
-              <h3 className="text-[#D7E2EA] font-medium text-[clamp(1.5rem,3vw,2.5rem)] uppercase leading-none mt-1">
+              <h3 className="text-gray-900 dark:text-[#D7E2EA] font-medium text-[clamp(1.5rem,3vw,2.5rem)] uppercase leading-none mt-1">
                 {project.name}
               </h3>
               {project.description && (
-                <p className="text-[#D7E2EA]/80 font-light mt-4 text-sm sm:text-base max-w-xl normal-case tracking-normal">
+                <p className="text-gray-700 dark:text-[#D7E2EA]/80 font-light mt-4 text-sm sm:text-base max-w-xl normal-case tracking-normal">
                   {project.description}
                 </p>
               )}
@@ -119,26 +119,68 @@ function ProjectCard({ project, index, totalCards }: { project: any, index: numb
         
         <div className="flex flex-col sm:flex-row gap-4 h-full flex-grow mt-2 sm:mt-6">
           <div className="w-full sm:w-[40%] flex flex-col gap-4">
-            <img 
+            <ProjectImage 
               src={project.images.tl} 
               alt={`${project.name} detail 1`}
-              className="w-full h-[clamp(130px,16vw,230px)] object-cover rounded-[40px] sm:rounded-[50px] md:rounded-[60px]"
+              className="w-full h-[clamp(130px,16vw,230px)]"
             />
-            <img 
+            <ProjectImage 
               src={project.images.bl} 
               alt={`${project.name} detail 2`}
-              className="w-full h-[clamp(160px,22vw,340px)] object-cover rounded-[40px] sm:rounded-[50px] md:rounded-[60px] flex-grow"
+              className="w-full h-[clamp(160px,22vw,340px)] flex-grow"
             />
           </div>
           <div className="w-full sm:w-[60%] h-[300px] sm:h-auto">
-            <img 
+            <ProjectImage 
               src={project.images.r} 
               alt={`${project.name} main`}
-              className="w-full h-full object-cover rounded-[40px] sm:rounded-[50px] md:rounded-[60px]"
+              className="w-full h-full"
             />
           </div>
         </div>
       </motion.div>
+    </div>
+  );
+}
+
+function ProjectImage({ src, alt, className }: { src: string, alt: string, className: string }) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const mouseXSpring = useSpring(x, { stiffness: 300, damping: 30 });
+  const mouseYSpring = useSpring(y, { stiffness: 300, damping: 30 });
+
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], [6, -6]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], [-6, 6]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    x.set(mouseX / width - 0.5);
+    y.set(mouseY / height - 0.5);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <div 
+      className={className} 
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ perspective: 1000 }}
+    >
+      <motion.img 
+        src={src} 
+        alt={alt}
+        style={{ rotateX, rotateY }}
+        className="w-full h-full object-cover rounded-[40px] sm:rounded-[50px] md:rounded-[60px] shadow-[0_10px_30px_rgba(215,226,234,0.05)]"
+      />
     </div>
   );
 }

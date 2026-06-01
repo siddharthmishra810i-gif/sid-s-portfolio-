@@ -11,7 +11,7 @@ export function HeroSection() {
           <a
             key={link}
             href={`#${link.toLowerCase()}`}
-            className="text-[#D7E2EA] font-[#D7E2EA] font-medium uppercase tracking-wider text-sm md:text-lg lg:text-[1.4rem] hover:opacity-70 transition-opacity duration-200"
+            className="text-gray-900 dark:text-[#D7E2EA] font-medium uppercase tracking-wider text-sm md:text-lg lg:text-[1.4rem] hover:opacity-70 transition-opacity duration-200"
           >
             {link}
           </a>
@@ -29,7 +29,7 @@ export function HeroSection() {
 
         <div className="flex justify-between items-end w-full max-w-full">
           <FadeIn delay={0.35} y={20}>
-            <p className="text-[#D7E2EA] font-light uppercase tracking-wide leading-snug max-w-[160px] sm:max-w-[220px] md:max-w-[260px] text-[clamp(0.75rem,1.4vw,1.5rem)]">
+            <p className="text-gray-900 dark:text-[#D7E2EA] font-light uppercase tracking-wide leading-snug max-w-[160px] sm:max-w-[220px] md:max-w-[260px] text-[clamp(0.75rem,1.4vw,1.5rem)]">
               a 3d creator driven by crafting striking and unforgettable projects
             </p>
           </FadeIn>

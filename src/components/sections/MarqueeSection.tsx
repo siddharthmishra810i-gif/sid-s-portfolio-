@@ -51,7 +51,7 @@ export function MarqueeSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="bg-[#0C0C0C] pt-24 sm:pt-32 md:pt-40 pb-10 overflow-hidden flex flex-col gap-3">
+    <section ref={sectionRef} className="bg-gray-100 dark:bg-[#0C0C0C] pt-24 sm:pt-32 md:pt-40 pb-10 overflow-hidden flex flex-col gap-3 transition-colors duration-300">
       <div 
         className="flex gap-3 will-change-transform whitespace-nowrap min-w-max"
         style={{ transform: `translate3d(${offset - 200}px, 0, 0)` }}

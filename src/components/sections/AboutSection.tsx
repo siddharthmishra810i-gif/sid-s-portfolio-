@@ -2,6 +2,7 @@ import React from 'react';
 import { FadeIn } from '../animations/FadeIn';
 import { AnimatedText } from '../animations/AnimatedText';
 import { ContactButton } from '../ui/ContactButton';
+import { DownloadResumeButton } from '../ui/DownloadResumeButton';
 
 export function AboutSection() {
   return (
@@ -29,11 +30,12 @@ export function AboutSection() {
 
         <AnimatedText 
           text="With more than five years of experience in design, i focus on branding, web design, and user experience, i truly enjoy working with businesses that aim to stand out and present their best image. Let's build something incredible together!"
-          className="font-medium text-center leading-relaxed max-w-[560px] text-[clamp(1rem,2vw,1.35rem)] text-[#D7E2EA]"
+          className="font-medium text-center leading-relaxed max-w-[560px] text-[clamp(1rem,2vw,1.35rem)] text-gray-800 dark:text-[#D7E2EA]"
         />
 
-        <FadeIn delay={0.1} y={30} className="mt-6 sm:mt-6 md:mt-8">
+        <FadeIn delay={0.1} y={30} className="mt-6 sm:mt-6 md:mt-8 flex flex-row flex-wrap justify-center items-center gap-4">
           <ContactButton />
+          <DownloadResumeButton />
         </FadeIn>
       </div>
     </section>
